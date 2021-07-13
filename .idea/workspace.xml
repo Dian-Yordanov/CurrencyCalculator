@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="18665098-cc6f-43d6-8503-b346cd30c490" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/project/home/MvcConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/project/home/ViewInformationObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/project/security/CustomAccessDeniedHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/project/security/WebSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/static/js/custom.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/index2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/layouts/input.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/layouts/showdata.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/layouts/table.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/layouts/test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/security/access-denied.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/security/user_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/screenshots/dashboard.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/screenshots/login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/pl/codeleak/demos/sbt/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/pl/codeleak/demos/sbt/ServletInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/pl/codeleak/demos/sbt/home/HomeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/pl/codeleak/demos/sbt/security/AuditApplicationEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/pl/codeleak/demos/sbt/security/AuditEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/pl/codeleak/demos/sbt/thymeleaf/ThymeleafObjects.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/pl/codeleak/demos/sbt/thymeleaf/ThymeleafTextTemplates.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/application-dev.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/fragments/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/fragments/footer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/fragments/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/fragments/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/resources/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/test/java/pl/codeleak/demos/sbt/home/HomeControllerClassicTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/test/java/pl/codeleak/demos/sbt/home/HomeControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/test/java/pl/codeleak/demos/sbt/home/HomePage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/test/java/pl/codeleak/demos/sbt/home/HomePageAssert.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/test/java/pl/codeleak/selenium/support/CaseFormat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/test/java/pl/codeleak/selenium/support/CaseFormatTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/test/java/pl/codeleak/selenium/support/SeleniumTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-thymeleaf/src/test/java/pl/codeleak/selenium/support/SeleniumTestExecutionListener.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/spring-boot-thymeleaf" />
+  </component>
+  <component name="ProjectId" id="1vBEccUjGcCIJFmHKVqicUSkZA4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/spring-boot-thymeleaf/src/main/java/project" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Taua2021\Desktop\CalculatorProject4\spring-boot-thymeleaf\src\main\java\project" />
+      <recent name="C:\Users\Taua2021\Desktop\CalculatorProject4\spring-boot-thymeleaf\src\main\resources\templates\fragments" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Taua2021\Desktop\CalculatorProject4\spring-boot-thymeleaf\src\main\resources\templates\security" />
+      <recent name="C:\Users\Taua2021\Desktop\CalculatorProject4\spring-boot-thymeleaf\src\test\java\pl" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="18665098-cc6f-43d6-8503-b346cd30c490" name="Default Changelist" comment="" />
+      <created>1626027162863</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1626027162863</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
