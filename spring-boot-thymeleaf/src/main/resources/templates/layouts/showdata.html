@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Show data</title>
+    <headers>
+        <frame-options
+                policy="SAMEORIGIN" />
+    </headers>
 </head>
 <body>
+
+<th:block layout:fragment="content">
 
 <strong th:text="${id}">cc</strong>
 <br>
 <strong th:text="${msg}">cc</strong>
+
+<br>
+
+<button type="button" th:onclick="|window.location.href='/result'|" class="btn btn-large btn-success"> Get data from BNB</button>
+
+<br>
+
+<embed src="/downloads/Exchange_Rates.pdf" width="600px" height="900px" />
+
+</th:block>
 
 </body>
 </html>

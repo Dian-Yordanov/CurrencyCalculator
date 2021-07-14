@@ -3,35 +3,81 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<script>
+    function submitcurrencyFrom(selectObject) {
+        var value = selectObject.value;
+        console.log(value);
 
+        let request = new XMLHttpRequest();
+        request.open("POST", '/currencyDataInputURL/', true);
+        request.send(value)
+
+    }
+    function submitCurrencyTo(selectObject) {
+        var value = selectObject.value;
+        console.log(value);
+
+        let request = new XMLHttpRequest();
+        request.open("GET", '/input', true);
+        request.send(value);
+        return request.responseText;
+
+    }
+</script>
+</head>
 <!-- Insert content into the layouts/layout.html -->
 <th:block layout:fragment="content">
 
-    <label for="currencyFrom">Convert:</label>
-    <select name="currencyFrom" id="currencyFrom">
-        <option value="Dollar">Dollar</option>
-        <option value="Lev">Lev</option>
-        <option value="Euro">Euro</option>
-        <option value="JapaneseYen">Japanese Yen</option>
-    </select>
-    <br><br>
+    <div class="grid-container">
+    <div class="grid-item">
 
-    <label for="currencyTo">To:</label>
-    <select name="currencyTo" id="currencyTo">
-        <option value="Dollar">Dollar</option>
-        <option value="Lev">Lev</option>
-        <option value="Euro">Euro</option>
-        <option value="JapaneseYen">Japanese Yen</option>
-    </select>
-    <br><br>
-    <input type="submit" value="Submit">
+        <label for="currencyFrom"><span class="currencyText">Convert:  </span></label>
+        <select name="currencyFrom" id="currencyFrom" th:onchange='submitcurrencyFrom()' method="post">
+            <option value="Dollar">Dollar</option>
+            <option value="Lev">Lev</option>
+            <option value="Euro">Euro</option>
+            <option value="JapaneseYen">Japanese Yen</option>
+        </select>
+        <br><br>
 
+        <label for="currencyTo"><span class="currencyText">To:           </span></label>
+        <select name="currencyTo" id="currencyTo" onchange="submitCurrencyTo()">
+            <option value="Dollar">Dollar</option>
+            <option value="Lev">Lev</option>
+            <option value="Euro">Euro</option>
+            <option value="JapaneseYen">Japanese Yen</option>
+        </select>
+
+        <br><br>
+        <input type="submit" value="Submit">
+
+
+    </div>
+    <div class="grid-item">
+
+        <h4>Currenct rates:</h4>
+        <strong th:text="${currency1}">ccc</strong>
+        <br>
+        <strong th:text="${currency2}">ccc</strong>
+
+    </div>
+
+    </div>
 
     <hr>
 
-    <button type="button" th:onclick="|window.location.href='/result'|" class="btn btn-large btn-success"> Get data from BNB</button>
 
-
+    <form action="#" th:action="@{/input}" th:object="${input}" method="post">
+        <input type="text" th:field="*{id}"/>
+        <select th:field="*{content}" onchange='document.forms[1].submit();' method="post">
+            <option value="de">Germany</option>
+            <option value="nl">Netherlands</option>
+            <option value="pl">Poland</option>
+            <option value="lv">Latvia</option>
+        </select>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
 
 </th:block>
 
