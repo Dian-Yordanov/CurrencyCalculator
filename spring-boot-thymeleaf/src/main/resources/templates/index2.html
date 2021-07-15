@@ -53,7 +53,7 @@
         <div class="grid-item">
 
             <form action="#" th:action="@{/}" th:object="${input}" method="post">
-                <label for="currencyFrom"><span class="currencyText">From:           </span></label>
+                <label for="currencyFrom"><span class="currencyText">  From:           </span></label>
                 <select name="currencyFrom" id="currencyFrom" th:field="*{content}" onchange='changeCurrencyFrom(this)' method="post">
                     <option value="Dollar">Dollar</option>
                     <option value="Pound sterling">Pound sterling</option>
@@ -61,7 +61,7 @@
                     <option value="Japanese Yen">Japanese Yen</option>
                 </select>
                 <br>
-                <label for="currencyTo"><span class="currencyText">To:                </span></label>
+                <label for="currencyTo"><span class="currencyText">  To:                </span></label>
                 <select name="currencyTo" id="currencyTo" th:field="*{content}" onchange='changeCurrencyTo(this)' method="post">
                     <option value="Dollar">Dollar</option>
                     <option value="Pound sterling">Pound sterling</option>
@@ -69,8 +69,8 @@
                     <option value="Japanese Yen">Japanese Yen</option>
                 </select>
                 <br>
-                <label for="label"><span class="currencyText">        Sum:    </span></label>
-                <input type="text" th:field="*{id}" name="label"/>
+                <label for="label"><span class="currencyText">  Sum:             </span></label>
+                <input type="text" th:field="*{id}" name="label" size="10"/>
                 <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
             </form>
 
