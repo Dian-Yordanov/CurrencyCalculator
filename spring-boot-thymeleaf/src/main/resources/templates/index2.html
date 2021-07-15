@@ -5,23 +5,12 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <script>
-    function submitcurrencyFrom(selectObject) {
+     function changeCurrencyFrom(selectObject) {
         var value = selectObject.value;
         console.log(value);
-
-        let request = new XMLHttpRequest();
-        request.open("POST", '/currencyDataInputURL/', true);
-        request.send(value)
-
-    }
-    function submitCurrencyTo(selectObject) {
-        var value = selectObject.value;
-        console.log(value);
-
-        let request = new XMLHttpRequest();
-        request.open("GET", '/input', true);
-        request.send(value);
-        return request.responseText;
+        var x = document.getElementById(value).textContent;
+        console.log(x);
+        document.getElementById("inputField").value = x;
 
     }
 </script>
@@ -32,53 +21,83 @@
     <div class="grid-container">
     <div class="grid-item">
 
-        <h4>Choose a currency and amount</h4>
+        <h4>Choose a currency</h4>
 
     </div>
     <div class="grid-item">
 
-        <h4>Currenct rates:</h4>
+        <h4>Current value of currencies compared to 1 lev</h4>
+        <strong th:text="${currencyFromValue}">cc</strong>
+        <br>
+        <strong th:text="${currencyToValue}">cc</strong>
 
     </div>
     <div class="grid-item">
 
-        <form action="#" th:action="@{/currencyDataInputURL}" th:object="${input}" method="post">
+        <form action="#" th:action="@{/}" th:object="${input}" method="post">
             <label for="currencyFrom"><span class="currencyText">From:           </span></label>
-            <select name="currencyFrom" id="currencyFrom" onchange='document.forms[0].submit();' method="post" th:field="*{content}">
+            <select name="currencyFrom" id="currencyFrom" th:field="*{content}">
                 <option value="Dollar">Dollar</option>
-                <option value="Lev">Lev</option>
+                <option value="Pound sterling">Pound sterling</option>
                 <option value="Euro">Euro</option>
-                <option value="JapaneseYen">Japanese Yen</option>
+                <option value="Japanese Yen">Japanese Yen</option>
             </select>
-            <input type="text" th:field="*{id}"/>
-        </form>
-
-        <br><br>
-
-        <form action="#" th:action="@{/currencyDataInputURL}" th:object="${input}" method="post">
+            <br>
             <label for="currencyTo"><span class="currencyText">To:                </span></label>
-            <select name="currencyTo" id="currencyTo" onchange='document.forms[1].submit();' method="post" th:field="*{content}">
+            <select name="currencyTo" id="currencyTo" th:field="*{content}">
                 <option value="Dollar">Dollar</option>
-                <option value="Lev">Lev</option>
+                <option value="Pound sterling">Pound sterling</option>
                 <option value="Euro">Euro</option>
-                <option value="JapaneseYen">Japanese Yen</option>
+                <option value="Japanese Yen">Japanese Yen</option>
             </select>
-            <input type="text" th:field="*{id}"/>
+            <br>
+            <label for="label"><span class="currencyText">        Sum:    </span></label>
+            <input type="text" th:field="*{id}" name="label"/>
+            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
         </form>
 
     </div>
     <div class="grid-item">
 
-        <div class="inline-text">
-            <p>1 </p>
-            <p th:text="${currency1Selected}">1 lev to 2 dollars</p>
-            <p>equals</p>
-            <p th:text="${currency2}">1 lev to 2 dollars</p>
-            <p th:text="${currency2Selected}">1 lev to 2 dollars</p>
-        </div>
+<!--        <div class="inline-text">-->
+<!--            <p>1 </p>-->
+<!--            <p th:text="${currencyNameDollar}">1 lev to 2 dollars</p>-->
+<!--            <p>equals</p>-->
+<!--            <p th:text="${valueDollar}">1 lev to 2 dollars</p>-->
+<!--            <p th:text="${currencyNameDollar}">1 lev to 2 dollars</p>-->
+<!--        </div>-->
 
     </div>
     </div>
+
+<!--    <h4>Enter amount</h4>-->
+<!--    <form action="#" th:action="@{/currencyDataInputURL}" th:object="${input}" method="post">-->
+<!--        <input type="text" th:field="*{id}"/>-->
+<!--    </form>-->
+
+    <h4>Result:</h4>
+    <strong th:text="${result}">cc</strong>
+
+<!--    <br>-->
+<!--    <strong th:text="${currencyNameDollar}">cc</strong>-->
+<!--    <br>-->
+<!--    <strong id="Dollar" th:text="${valueDollar}">cc</strong>-->
+<!--    <br>-->
+<!--    <strong th:text="${currencyNameEuro}">cc</strong>-->
+<!--    <br>-->
+<!--    <strong id="Euro" th:text="${valueEuro}">cc</strong>-->
+<!--    <br>-->
+<!--    <strong th:text="${currencyNamePoundsterling}">cc</strong>-->
+<!--    <br>-->
+<!--    <strong id="Pound sterling" th:text="${valuePoundsterling}">cc</strong>-->
+<!--    <br>-->
+<!--    <strong th:text="${currencyNameJapaneseYen}">cc</strong>-->
+<!--    <br>-->
+<!--    <strong id="Japanese Yen" th:text="${valueJapaneseYen}">cc</strong>-->
+
+
+    <!--    <input type="text" th:field="*{id}"/>-->
+    <!--    <input type="text" th:field="*{id}"/>-->
 
     <hr>
 

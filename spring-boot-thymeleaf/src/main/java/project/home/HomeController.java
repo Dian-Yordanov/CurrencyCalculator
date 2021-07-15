@@ -52,30 +52,98 @@ class HomeController {
 
     @RequestMapping("/")
     public String index(
-            @RequestParam(value = "id", required = false) Integer id,
+            @ModelAttribute ViewInformationObject viewInformationObject,
             Model model
-    ) {
-        model.addAttribute("currency1", "cur1");
-        model.addAttribute("currency2", "cur2");
+    )   {
+        Double doubleValueFrom = 0.0;
+        Double doubleValueTo = 0.0;
+//        model.addAttribute("currency1", "cur1");
+//        model.addAttribute("currency2", "cur2");
+//
+//        model.addAttribute("currency1Selected", "lev");
+//        model.addAttribute("currency2Selected", "dollar");
 
-        model.addAttribute("currency1Selected", "lev");
-        model.addAttribute("currency2Selected", "dollar");
-
+        model.addAttribute("currencyFromValue", doubleValueFrom);
+        model.addAttribute("currencyToValue", doubleValueTo);
         model.addAttribute("input", new ViewInformationObject());
 
         return "index2";
     }
 
-//    @GetMapping("/")
-//    String index(Model model) {
-//        model.addAttribute("currency1", LocalDateTime.now());
-//        model.addAttribute("currency2", "Record Deleted Sucessfully");
-//        model.addAttribute("input", new ViewInformationObject());
-//
-//
-////        System.out.println("Hello test !!!!!!!!!");
-//        return "index2";
-//    }
+    @PostMapping("/")
+    public String indexInputSubmit(@ModelAttribute ViewInformationObject viewInformationObject, Model model) throws ClassNotFoundException {
+        Double doubleValueFrom = 0.0;
+        Double doubleValueTo = 0.0;
+
+        model.addAttribute("currencyDataInputURL", new ViewInformationObject());
+
+        model.addAttribute("input", new ViewInformationObject());
+        System.out.println("getId()" + viewInformationObject.getId());
+        System.out.println("getContent() " + viewInformationObject.getContent());
+
+        String str = viewInformationObject.getContent();
+        String[] arrOfStr = str.split(",", 2);
+
+        String currencyFrom = arrOfStr[0];
+        String currencyTo = arrOfStr[1];
+
+        // load the sqlite-JDBC driver using the current class loader
+        Class.forName("org.sqlite.JDBC");
+
+        Connection connection = null;
+        try
+        {
+            // create a database connection
+            connection = DriverManager.getConnection("jdbc:sqlite:src\\main\\resources\\database\\currencyDB.db");
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            ResultSet rs = statement.executeQuery("select value from currency WHERE currencyName = '" + currencyFrom +"';");
+            while(rs.next())
+            {
+                System.out.println("currencyFrom " + currencyFrom);
+                System.out.println("rs.getDouble(\"value\") " + rs.getDouble("value"));
+                doubleValueFrom = rs.getDouble("value");
+                
+            }
+            ResultSet rs1 = statement.executeQuery("select value from currency WHERE currencyName = '" + currencyTo +"';");
+            while(rs1.next())
+            {
+                System.out.println("currencyTo " + currencyTo);
+                System.out.println("rs.getDouble(\"value\") " + rs1.getDouble("value"));
+                doubleValueTo = rs.getDouble("value");
+                
+            }
+
+        }
+        catch(SQLException e)
+        {
+            // if the error message is "out of memory",
+            // it probably means no database file is found
+            System.err.println(e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if(connection != null)
+                    connection.close();
+            }
+            catch(SQLException e)
+            {
+                // connection close failed.
+                System.err.println(e);
+            }
+        }
+
+        double calculationResult = Double.parseDouble(viewInformationObject.getId()) * doubleValueFrom /doubleValueTo;
+
+        model.addAttribute("currencyFromValue", doubleValueFrom);
+        model.addAttribute("currencyToValue", doubleValueTo);
+        model.addAttribute("result", calculationResult);
+
+        return "index2";
+    }
 
     @GetMapping("/currencyDataInputURL")
     public String indexInput(@ModelAttribute ViewInformationObject viewInformationObject, Model model){
@@ -84,25 +152,6 @@ class HomeController {
         System.out.println(viewInformationObject.getContent());
 
         return "layouts/currencyDataInputURL";
-    }
-
-    @PostMapping("/currencyDataInputURL")
-    public String indexInputSubmit(@ModelAttribute ViewInformationObject viewInformationObject, Model model){
-        model.addAttribute("currencyDataInputURL", new ViewInformationObject());
-        System.out.println(viewInformationObject.getId());
-        System.out.println(viewInformationObject.getContent());
-
-
-//        System.out.println("Hello tesvccfgfdgfdt !!!!!!!!!");
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/alternativeIndex")
-    String alternativeIndex(Model model) {
-        model.addAttribute("now", LocalDateTime.now());
-        model.addAttribute("msg", "Record Deleted Sucessfully");
-        return "index2";
     }
 
     @RequestMapping(value = "/result")

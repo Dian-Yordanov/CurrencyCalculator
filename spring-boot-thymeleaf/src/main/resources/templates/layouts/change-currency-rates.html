@@ -7,7 +7,7 @@
     <title>Getting Started: Handling Form Submission</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script>
-    function submitcurrencyFrom(selectObject) {
+    function changeCurrencyFrom(selectObject) {
         var value = selectObject.value;
         console.log(value);
         var x = document.getElementById(value).textContent;
@@ -47,7 +47,7 @@
 <br>
 <form action="#" th:action="@{/change-currency-rates}" th:object="${viewInformationObject}" method="post">
 
-    <select name="currencyTo" id="currencyTo" th:field="*{content}" onchange='submitcurrencyFrom(this)' method="post">
+    <select name="currencyTo" id="currencyTo" th:field="*{content}" onchange='changeCurrencyFrom(this)' method="post">
         <option value="Dollar">Dollar</option>
         <option value="Pound sterling">Pound sterling</option>
         <option value="Euro">Euro</option>
