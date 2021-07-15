@@ -8,8 +8,8 @@ span.currencyText {
 }
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto;
-  padding-right: 400px;
+  grid-template-columns: auto auto;
+  padding-right: 200px;
   padding: 10px;
 }
 .grid-item {
@@ -17,4 +17,8 @@ span.currencyText {
   padding: 20px;
   font-size: 16px;
   text-align: center;
+}
+
+.inline-text p{
+  display: inline;
 }

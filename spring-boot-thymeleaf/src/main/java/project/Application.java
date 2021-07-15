@@ -21,8 +21,8 @@ public class Application {
     }
 
     public static void downloadInitializer() throws MalformedURLException, IOException{
-        String sourceUrl = "https://www.bnb.bg/Statistics/StExternalSector/StExchangeRates/StERForeignCurrencies/index.htm?download=xml&search=&lang=BG";
-        String targetFilename = "src\\main\\resources\\downloads\\Exchange_Rates.xml";
+        String sourceUrl = "https://www.bnb.bg/Statistics/StExternalSector/StExchangeRates/StERForeignCurrencies/index.htm?download=pdf&search=&lang=BG";
+        String targetFilename = "src\\main\\resources\\downloads\\Exchange_Rates.pdf";
 
         File f = new File(targetFilename);
         if(!f.exists() && !f.isDirectory()) {

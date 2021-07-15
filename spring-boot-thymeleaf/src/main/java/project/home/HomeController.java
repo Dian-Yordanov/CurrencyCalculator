@@ -55,8 +55,12 @@ class HomeController {
             @RequestParam(value = "id", required = false) Integer id,
             Model model
     ) {
-        model.addAttribute("currency1", LocalDateTime.now());
-        model.addAttribute("currency2", "Record Deleted Sucessfully");
+        model.addAttribute("currency1", "cur1");
+        model.addAttribute("currency2", "cur2");
+
+        model.addAttribute("currency1Selected", "lev");
+        model.addAttribute("currency2Selected", "dollar");
+
         model.addAttribute("input", new ViewInformationObject());
 
         return "index2";
@@ -85,7 +89,11 @@ class HomeController {
     @PostMapping("/currencyDataInputURL")
     public String indexInputSubmit(@ModelAttribute ViewInformationObject viewInformationObject, Model model){
         model.addAttribute("currencyDataInputURL", new ViewInformationObject());
-        System.out.println("Hello tesvccfgfdgfdt !!!!!!!!!");
+        System.out.println(viewInformationObject.getId());
+        System.out.println(viewInformationObject.getContent());
+
+
+//        System.out.println("Hello tesvccfgfdgfdt !!!!!!!!!");
 
         return "redirect:/";
     }
@@ -162,7 +170,19 @@ class HomeController {
     }
 
     @GetMapping("/showdata")
-    String showdata(Model model) throws ClassNotFoundException{
+    String showdata(Model model){
+
+        return "layouts/showdata";
+    }
+
+    @GetMapping("properties")
+    @ResponseBody
+    java.util.Properties properties() {
+        return System.getProperties();
+    }
+
+    @GetMapping("/change-currency-rates")
+    public String inputForm(@ModelAttribute ViewInformationObject viewInformationObject, Model model)  throws ClassNotFoundException{
 
         // load the sqlite-JDBC driver using the current class loader
         Class.forName("org.sqlite.JDBC");
@@ -171,19 +191,33 @@ class HomeController {
         try
         {
             // create a database connection
-            connection = DriverManager.getConnection("jdbc:sqlite:src\\main\\resources\\database\\sample.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:src\\main\\resources\\database\\currencyDB.db");
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-            ResultSet rs = statement.executeQuery("select * from person");
+            ResultSet rs = statement.executeQuery("select * from currency");
             while(rs.next())
             {
                 // read the result set
-                System.out.println("name = " + rs.getString("name"));
-                System.out.println("id = " + rs.getInt("id"));
+//                System.out.println("currencyName = " + rs.getString("currencyName"));
+//                System.out.println("value = " + rs.getDouble("value"));
 
-                model.addAttribute("msg", rs.getString("name"));
-                model.addAttribute("id", rs.getString("id"));
+                if(rs.getString("currencyName").equals("Dollar")) {
+                    model.addAttribute("currencyNameDollar", rs.getString("currencyName"));
+                    model.addAttribute("valueDollar", rs.getDouble("value"));
+                }
+                if(rs.getString("currencyName").equals("Euro")) {
+                    model.addAttribute("currencyNameEuro", rs.getString("currencyName"));
+                    model.addAttribute("valueEuro", rs.getDouble("value"));
+                }
+                if(rs.getString("currencyName").equals("Pound sterling")) {
+                    model.addAttribute("currencyNamePoundsterling", rs.getString("currencyName"));
+                    model.addAttribute("valuePoundsterling", rs.getDouble("value"));
+                }
+                if(rs.getString("currencyName").equals("Japanese Yen")) {
+                    model.addAttribute("currencyNameJapaneseYen", rs.getString("currencyName"));
+                    model.addAttribute("valueJapaneseYen", rs.getDouble("value"));
+                }
 
             }
         }
@@ -206,55 +240,28 @@ class HomeController {
                 System.err.println(e);
             }
         }
-
-        return "layouts/showdata";
+        return "layouts/change-currency-rates";
     }
 
-    @GetMapping("properties")
-    @ResponseBody
-    java.util.Properties properties() {
-        return System.getProperties();
-    }
-
-    @GetMapping("/input")
-    public String inputForm(@ModelAttribute ViewInformationObject viewInformationObject, Model model)  {
-        model.addAttribute("input", new ViewInformationObject());
-
-        System.out.println("viewInformationObject.getId()");
-        System.out.println(viewInformationObject.getId());
-        System.out.println(viewInformationObject.getContent());
-
-        return "layouts/input";
-    }
-
-    @PostMapping("/input")
+    @PostMapping("/change-currency-rates")
     public String inputSubmit(@ModelAttribute ViewInformationObject viewInformationObject, Model model) throws ClassNotFoundException{
-        System.out.println(viewInformationObject.getId());
-        System.out.println(viewInformationObject.getContent());
-        model.addAttribute("input", viewInformationObject);
+        model.addAttribute("change-currency-rates", viewInformationObject);
 
-        // load the sqlite-JDBC driver using the current class loader
+        System.out.println("UPDATE currency SET value = " + viewInformationObject.getId() + " WHERE currencyName = '" + viewInformationObject.getContent() + "';");
+
+//        // load the sqlite-JDBC driver using the current class loader
         Class.forName("org.sqlite.JDBC");
 
         Connection connection = null;
         try
             {
                 // create a database connection
-                connection = DriverManager.getConnection("jdbc:sqlite:src\\main\\resources\\database\\sample.db");
+                connection = DriverManager.getConnection("jdbc:sqlite:src\\main\\resources\\database\\currencyDB.db");
                 Statement statement = connection.createStatement();
                 statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-                statement.executeUpdate("drop table if exists person");
-                statement.executeUpdate("create table person (id integer, name string)");
-                statement.executeUpdate("insert into person values(1, '"+ viewInformationObject.getId() +"')");
-                statement.executeUpdate("insert into person values(2, '"+ viewInformationObject.getContent() +"')");
-                ResultSet rs = statement.executeQuery("select * from person");
-                while(rs.next())
-                {
-                    // read the result set
-                    System.out.println("name = " + rs.getString("name"));
-                    System.out.println("id = " + rs.getInt("id"));
-                }
+                statement.executeUpdate("UPDATE currency SET value = " + viewInformationObject.getId() + " WHERE currencyName = '" + viewInformationObject.getContent() + "';");
+
             }
             catch(SQLException e)
             {
@@ -310,24 +317,4 @@ class HomeController {
                 .contentType(MediaType.parseMediaType("application/pdf"))
                 .body(resource);
     }
-
-//    @GetMapping(value = "/downloads")
-//    public void showPDF(HttpServletResponse response) throws IOException {
-//        response.setContentType("application/pdf");
-//        InputStream inputStream = new FileInputStream(new File("/downloads/" + "Exchange_Rates.pdf"));
-//        int nRead;
-//        while ((nRead = inputStream.read()) != -1) {
-//            response.getWriter().write(nRead);
-//        }
-//    }
-
-//    @GetMapping("/downloads/Exchange_Rates.pdf")
-//    public void showPDF(HttpServletResponse response) throws IOException {
-//        response.setContentType("application/pdf");
-//        InputStream inputStream = new FileInputStream(new File("/downloads/" + "Exchange_Rates.pdf"));
-//        int nRead;
-//        while ((nRead = inputStream.read()) != -1) {
-//            response.getWriter().write(nRead);
-//        }
-//    }
 }

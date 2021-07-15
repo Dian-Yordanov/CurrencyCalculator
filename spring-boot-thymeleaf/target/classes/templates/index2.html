@@ -32,52 +32,55 @@
     <div class="grid-container">
     <div class="grid-item">
 
-        <label for="currencyFrom"><span class="currencyText">Convert:  </span></label>
-        <select name="currencyFrom" id="currencyFrom" th:onchange='submitcurrencyFrom()' method="post">
-            <option value="Dollar">Dollar</option>
-            <option value="Lev">Lev</option>
-            <option value="Euro">Euro</option>
-            <option value="JapaneseYen">Japanese Yen</option>
-        </select>
-        <br><br>
-
-        <label for="currencyTo"><span class="currencyText">To:           </span></label>
-        <select name="currencyTo" id="currencyTo" onchange="submitCurrencyTo()">
-            <option value="Dollar">Dollar</option>
-            <option value="Lev">Lev</option>
-            <option value="Euro">Euro</option>
-            <option value="JapaneseYen">Japanese Yen</option>
-        </select>
-
-        <br><br>
-        <input type="submit" value="Submit">
-
+        <h4>Choose a currency and amount</h4>
 
     </div>
     <div class="grid-item">
 
         <h4>Currenct rates:</h4>
-        <strong th:text="${currency1}">ccc</strong>
-        <br>
-        <strong th:text="${currency2}">ccc</strong>
 
     </div>
+    <div class="grid-item">
 
+        <form action="#" th:action="@{/currencyDataInputURL}" th:object="${input}" method="post">
+            <label for="currencyFrom"><span class="currencyText">From:           </span></label>
+            <select name="currencyFrom" id="currencyFrom" onchange='document.forms[0].submit();' method="post" th:field="*{content}">
+                <option value="Dollar">Dollar</option>
+                <option value="Lev">Lev</option>
+                <option value="Euro">Euro</option>
+                <option value="JapaneseYen">Japanese Yen</option>
+            </select>
+            <input type="text" th:field="*{id}"/>
+        </form>
+
+        <br><br>
+
+        <form action="#" th:action="@{/currencyDataInputURL}" th:object="${input}" method="post">
+            <label for="currencyTo"><span class="currencyText">To:                </span></label>
+            <select name="currencyTo" id="currencyTo" onchange='document.forms[1].submit();' method="post" th:field="*{content}">
+                <option value="Dollar">Dollar</option>
+                <option value="Lev">Lev</option>
+                <option value="Euro">Euro</option>
+                <option value="JapaneseYen">Japanese Yen</option>
+            </select>
+            <input type="text" th:field="*{id}"/>
+        </form>
+
+    </div>
+    <div class="grid-item">
+
+        <div class="inline-text">
+            <p>1 </p>
+            <p th:text="${currency1Selected}">1 lev to 2 dollars</p>
+            <p>equals</p>
+            <p th:text="${currency2}">1 lev to 2 dollars</p>
+            <p th:text="${currency2Selected}">1 lev to 2 dollars</p>
+        </div>
+
+    </div>
     </div>
 
     <hr>
-
-
-    <form action="#" th:action="@{/input}" th:object="${input}" method="post">
-        <input type="text" th:field="*{id}"/>
-        <select th:field="*{content}" onchange='document.forms[1].submit();' method="post">
-            <option value="de">Germany</option>
-            <option value="nl">Netherlands</option>
-            <option value="pl">Poland</option>
-            <option value="lv">Latvia</option>
-        </select>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>
 
 </th:block>
 
