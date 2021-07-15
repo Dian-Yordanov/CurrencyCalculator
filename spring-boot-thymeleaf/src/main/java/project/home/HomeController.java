@@ -54,14 +54,48 @@ class HomeController {
     public String index(
             @ModelAttribute ViewInformationObject viewInformationObject,
             Model model
-    )   {
+    ) throws ClassNotFoundException {
         Double doubleValueFrom = 0.0;
         Double doubleValueTo = 0.0;
-//        model.addAttribute("currency1", "cur1");
-//        model.addAttribute("currency2", "cur2");
-//
-//        model.addAttribute("currency1Selected", "lev");
-//        model.addAttribute("currency2Selected", "dollar");
+        String innitialCurrencyName = "Dollar";
+
+        Class.forName("org.sqlite.JDBC");
+
+        Connection connection = null;
+        try
+        {
+            // create a database connection
+            connection = DriverManager.getConnection("jdbc:sqlite:src\\main\\resources\\database\\currencyDB.db");
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            ResultSet rs = statement.executeQuery("select value from currency WHERE currencyName = '" + innitialCurrencyName +"';");
+            while(rs.next())
+            {
+                doubleValueFrom = rs.getDouble("value");
+                doubleValueTo = rs.getDouble("value");
+            }
+        }
+        catch(SQLException e)
+        {
+            // if the error message is "out of memory",
+            // it probably means no database file is found
+            System.err.println(e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if(connection != null)
+                    connection.close();
+            }
+            catch(SQLException e)
+            {
+                // connection close failed.
+                System.err.println(e);
+            }
+        }
+
 
         model.addAttribute("currencyFromValue", doubleValueFrom);
         model.addAttribute("currencyToValue", doubleValueTo);
