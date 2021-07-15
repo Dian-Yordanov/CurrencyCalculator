@@ -69,11 +69,27 @@ class HomeController {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-            ResultSet rs = statement.executeQuery("select value from currency WHERE currencyName = '" + innitialCurrencyName +"';");
+            ResultSet rs = statement.executeQuery("select * from currency");
             while(rs.next())
             {
-                doubleValueFrom = rs.getDouble("value");
-                doubleValueTo = rs.getDouble("value");
+                if(rs.getString("currencyName").equals("Dollar")) {
+                    model.addAttribute("currencyNameDollar", rs.getString("currencyName"));
+                    model.addAttribute("valueDollar", rs.getDouble("value"));
+                    doubleValueFrom = rs.getDouble("value");
+                    doubleValueTo = rs.getDouble("value");
+                }
+                if(rs.getString("currencyName").equals("Euro")) {
+                    model.addAttribute("currencyNameEuro", rs.getString("currencyName"));
+                    model.addAttribute("valueEuro", rs.getDouble("value"));
+                }
+                if(rs.getString("currencyName").equals("Pound sterling")) {
+                    model.addAttribute("currencyNamePoundsterling", rs.getString("currencyName"));
+                    model.addAttribute("valuePoundsterling", rs.getDouble("value"));
+                }
+                if(rs.getString("currencyName").equals("Japanese Yen")) {
+                    model.addAttribute("currencyNameJapaneseYen", rs.getString("currencyName"));
+                    model.addAttribute("valueJapaneseYen", rs.getDouble("value"));
+                }
             }
         }
         catch(SQLException e)
@@ -111,9 +127,9 @@ class HomeController {
 
         model.addAttribute("currencyDataInputURL", new ViewInformationObject());
 
-        model.addAttribute("input", new ViewInformationObject());
-        System.out.println("getId()" + viewInformationObject.getId());
-        System.out.println("getContent() " + viewInformationObject.getContent());
+
+//        System.out.println("getId()" + viewInformationObject.getId());
+//        System.out.println("getContent() " + viewInformationObject.getContent());
 
         String str = viewInformationObject.getContent();
         String[] arrOfStr = str.split(",", 2);
@@ -125,6 +141,58 @@ class HomeController {
         Class.forName("org.sqlite.JDBC");
 
         Connection connection = null;
+        try
+        {
+            // create a database connection
+            connection = DriverManager.getConnection("jdbc:sqlite:src\\main\\resources\\database\\currencyDB.db");
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            ResultSet rs = statement.executeQuery("select * from currency");
+            while(rs.next())
+            {
+                if(rs.getString("currencyName").equals("Dollar")) {
+                    model.addAttribute("currencyNameDollar", rs.getString("currencyName"));
+                    model.addAttribute("valueDollar", rs.getDouble("value"));
+                    doubleValueFrom = rs.getDouble("value");
+                    doubleValueTo = rs.getDouble("value");
+                }
+                if(rs.getString("currencyName").equals("Euro")) {
+                    model.addAttribute("currencyNameEuro", rs.getString("currencyName"));
+                    model.addAttribute("valueEuro", rs.getDouble("value"));
+                }
+                if(rs.getString("currencyName").equals("Pound sterling")) {
+                    model.addAttribute("currencyNamePoundsterling", rs.getString("currencyName"));
+                    model.addAttribute("valuePoundsterling", rs.getDouble("value"));
+                }
+                if(rs.getString("currencyName").equals("Japanese Yen")) {
+                    model.addAttribute("currencyNameJapaneseYen", rs.getString("currencyName"));
+                    model.addAttribute("valueJapaneseYen", rs.getDouble("value"));
+                }
+            }
+        }
+        catch(SQLException e)
+        {
+            // if the error message is "out of memory",
+            // it probably means no database file is found
+            System.err.println(e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if(connection != null)
+                    connection.close();
+            }
+            catch(SQLException e)
+            {
+                // connection close failed.
+                System.err.println(e);
+            }
+        }
+
+        connection = null;
+
         try
         {
             // create a database connection
@@ -172,6 +240,7 @@ class HomeController {
 
         double calculationResult = Double.parseDouble(viewInformationObject.getId()) * doubleValueFrom /doubleValueTo;
 
+        model.addAttribute("input", new ViewInformationObject());
         model.addAttribute("currencyFromValue", doubleValueFrom);
         model.addAttribute("currencyToValue", doubleValueTo);
         model.addAttribute("result", calculationResult);
@@ -281,10 +350,6 @@ class HomeController {
             ResultSet rs = statement.executeQuery("select * from currency");
             while(rs.next())
             {
-                // read the result set
-//                System.out.println("currencyName = " + rs.getString("currencyName"));
-//                System.out.println("value = " + rs.getDouble("value"));
-
                 if(rs.getString("currencyName").equals("Dollar")) {
                     model.addAttribute("currencyNameDollar", rs.getString("currencyName"));
                     model.addAttribute("valueDollar", rs.getDouble("value"));
@@ -301,7 +366,6 @@ class HomeController {
                     model.addAttribute("currencyNameJapaneseYen", rs.getString("currencyName"));
                     model.addAttribute("valueJapaneseYen", rs.getDouble("value"));
                 }
-
             }
         }
         catch(SQLException e)

@@ -8,10 +8,32 @@
      function changeCurrencyFrom(selectObject) {
         var value = selectObject.value;
         console.log(value);
-        var x = document.getElementById(value).textContent;
+        var x = document.getElementById(value).innerHTML;
         console.log(x);
-        document.getElementById("inputField").value = x;
-
+        document.getElementById("currencyField1").innerHTML = x;
+        document.getElementById("currencyField1").hidden = false;
+    }
+     function changeCurrencyTo(selectObject) {
+        var value = selectObject.value;
+        console.log(value);
+        var x = document.getElementById(value).innerHTML;
+        console.log(x);
+        document.getElementById("currencyField2").innerHTML = x;
+        document.getElementById("currencyField2").hidden = false;
+    }
+    function resetCurrenciesTo() {
+        var value = 'Dollar';
+        var x = document.getElementById(value).innerHTML;
+        console.log(x);
+        document.getElementById("currencyField1").innerHTML = x;
+        document.getElementById("currencyField1").hidden = false;
+    }
+        function resetCurrenciesFrom() {
+        var value = 'Dollar';
+        var x = document.getElementById(value).innerHTML;
+        console.log(x);
+        document.getElementById("currencyField2").innerHTML = x;
+        document.getElementById("currencyField2").hidden = false;
     }
 </script>
 </head>
@@ -32,7 +54,7 @@
 
             <form action="#" th:action="@{/}" th:object="${input}" method="post">
                 <label for="currencyFrom"><span class="currencyText">From:           </span></label>
-                <select name="currencyFrom" id="currencyFrom" th:field="*{content}">
+                <select name="currencyFrom" id="currencyFrom" th:field="*{content}" onchange='changeCurrencyFrom(this)' method="post">
                     <option value="Dollar">Dollar</option>
                     <option value="Pound sterling">Pound sterling</option>
                     <option value="Euro">Euro</option>
@@ -40,7 +62,7 @@
                 </select>
                 <br>
                 <label for="currencyTo"><span class="currencyText">To:                </span></label>
-                <select name="currencyTo" id="currencyTo" th:field="*{content}">
+                <select name="currencyTo" id="currencyTo" th:field="*{content}" onchange='changeCurrencyTo(this)' method="post">
                     <option value="Dollar">Dollar</option>
                     <option value="Pound sterling">Pound sterling</option>
                     <option value="Euro">Euro</option>
@@ -68,11 +90,20 @@
 
     <hr>
 
-    <strong th:text="${currencyNameDollar}">cc</strong>
-    <br>
-    <strong id="Dollar" th:text="${valueDollar}">cc</strong>
+    <strong hidden th:text="${currencyNameDollar}">cc</strong>
+    <strong hidden id="Dollar" th:text="${valueDollar}">cc</strong>
+    <strong hidden th:text="${currencyNameEuro}">cc</strong>
+    <strong hidden id="Euro" th:text="${valueEuro}">cc</strong>
+    <strong hidden th:text="${currencyNamePoundsterling}">cc</strong>
+    <strong hidden id="Pound sterling" th:text="${valuePoundsterling}">cc</strong>
+    <strong hidden th:text="${currencyNameJapaneseYen}">cc</strong>
+    <strong hidden id="Japanese Yen" th:text="${valueJapaneseYen}">cc</strong>
 
-<!--    <h4>Resuddlt:</h4>-->
+
+    <body onload='resetCurrenciesTo();resetCurrenciesFrom();'>
+
+
+    <!--    <h4>Resuddlt:</h4>-->
 
 </th:block>
 
