@@ -1,5 +1,6 @@
 package project.home;
 
+import io.micrometer.core.instrument.util.StringEscapeUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.InputStreamResource;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -32,9 +36,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import project.Application;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +56,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
+
+import static java.time.chrono.ThaiBuddhistEra.BE;
 
 @Controller
 class HomeController {
@@ -261,57 +274,64 @@ class HomeController {
     String doStuffMethod(Model model) throws ClassNotFoundException, IOException {
         System.out.println("Success");
 
-
-        // load the sqlite-JDBC driver using the current class loader
-        Class.forName("org.sqlite.JDBC");
-
-        Connection connection = null;
-        try
-        {
-            // create a database connection
-            connection = DriverManager.getConnection("jdbc:sqlite:src\\main\\resources\\database\\sample.db");
-            Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);  // set timeout to 30 sec.
-
-            ResultSet rs = statement.executeQuery("select * from person");
-            while(rs.next())
-            {
-                // read the result set
-                System.out.println("name = " + rs.getString("name"));
-                System.out.println("id = " + rs.getInt("id"));
-
-                model.addAttribute("msg", rs.getString("name"));
-                model.addAttribute("id", rs.getString("id"));
-
-            }
-        }
-        catch(SQLException e)
-        {
-            // if the error message is "out of memory",
-            // it probably means no database file is found
-            System.err.println(e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if(connection != null)
-                    connection.close();
-            }
-            catch(SQLException e)
-            {
-                // connection close failed.
-                System.err.println(e);
-            }
-        }
-
-
-
         Application.downloadInitializer();
 
-//        https://www.bnb.bg/Statistics/StExternalSector/StExchangeRates/StERForeignCurrencies/index.htm?download=xml&search=&lang=BG
-
         return "layouts/showdata";
+    }
+
+    @RequestMapping(value = "/convertXMLtoDB")
+    String convertXMLtoDB(Model model) throws ClassNotFoundException, IOException {
+//        System.out.println("Succggess");
+
+        Application.downloadInitializerForXML();
+
+        String filePath = "src\\main\\resources\\downloads\\";
+//        String fileName = "XMLFile.xml";
+        String fileName = "Exchange_Rates.xml";
+
+        try
+        {
+
+            File file = new File(filePath+fileName);
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(file);
+            doc.getDocumentElement().normalize();
+            System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+            NodeList nodeList = doc.getElementsByTagName("ROW");
+
+
+            Application.createDB();
+
+            for (int itr = 0; itr < nodeList.getLength(); itr++)
+            {
+                Node node = nodeList.item(itr);
+                System.out.println("\nNode Name :" + node.getNodeName());
+                try {
+                    if (node.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) node;
+
+
+//                        System.out.println("NAME_: " + eElement.getElementsByTagName("NAME_").item(0).getTextContent());
+//                        System.out.println("RATE: " + eElement.getElementsByTagName("RATE").item(0).getTextContent());
+
+                        Application.writeIntoDB(eElement.getElementsByTagName("NAME_").item(0).getTextContent(),
+                                eElement.getElementsByTagName("RATE").item(0).getTextContent());
+
+                    }
+                } catch (NullPointerException e) {
+                    System.out.println("There was a transfer exception");
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return "redirect:/showdata";
     }
 
     @GetMapping("/security/user_page")

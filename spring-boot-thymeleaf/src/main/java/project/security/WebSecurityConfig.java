@@ -77,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers( "/currencyDataInputURL").permitAll()
                     .antMatchers("/security/user_page").authenticated()
                     .antMatchers("/change-currency-rates").hasRole("ADMIN")
+                    .antMatchers("/convertXMLtoDB").permitAll()
                     .antMatchers("/**").permitAll()
                     .and()
                 .formLogin()
